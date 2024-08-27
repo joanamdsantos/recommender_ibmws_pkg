@@ -10,7 +10,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 class Recommender():
     '''
-    This Recommender uses hybrid approach ofContent-Based Filtering and Colaborative Filtering to make recommendations.  
+    This Recommender uses hybrid approach ofContent-Based Filtering and Collaborative Filtering to 
+    make recommendations.  
     The content base recommendation system developed relies on a user profile, text vectorization, 
     similarity calculation, ranking and recommendation, as well as handling of new users. 
     '''
@@ -131,13 +132,8 @@ if __name__ == '__main__':
     # load data
     rec.load_data(inter_path='data/user-item-interactions.csv', content_path= 'data/articles_community.csv')
 
-    # predict
-    rec.make_content_recs(user_id=8, m=10)
-
     # make recommendations
-    print(rec.make_recommendations(8,'user')) # user in the dataset
-    print(rec.make_recommendations(1,'user')) # user not in dataset
-    print(rec.make_recommendations(1853728)) # movie in the dataset
-    print(rec.make_recommendations(1)) # movie not in dataset
-    print(rec.n_users)
-    print(rec.n_movies)
+    rec.make_recommendations(8, m=10) # user in the dataset
+    rec.make_recommendations(5150, m=10)# user not in dataset
+    rec.n_users
+    rec.n_articles
