@@ -12,4 +12,5 @@ setup(name='recommender_ibmws',
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.12',
+    Homepage = "https://github.com/joanamdsantos/recommender_ibmws_pkg"
     zip_safe=False)

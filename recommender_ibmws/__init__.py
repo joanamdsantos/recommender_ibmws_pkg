@@ -1,1 +1,1 @@
-from .recommender import Recommender
+from recommender_ibmws.recommender import Recommender
