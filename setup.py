@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(name='recommender_ibmws',
-      version='0.0.3',
+      version='0.1.0',
       author= 'Joana Martins dos Santos',
       author_email= 'joanamlmsantos@gmail.com',
       description='User article recommender system for IBM Watson Studio',

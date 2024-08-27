@@ -1,5 +1,7 @@
 import numpy as np
 import pandas as pd
+import importlib.resources as pkg_resources
+from recommender_ibmws import data
 
 def load_data(inter_path, content_path):
     """
@@ -13,8 +15,14 @@ def load_data(inter_path, content_path):
 	Returns:
 		tuple: A tuple containing the processed interaction and content dataframes.
 	"""
-    interactions = pd.read_csv(inter_path)
-    content = pd.read_csv(content_path)
+    #interactions = pd.read_csv(inter_path)
+    #content = pd.read_csv(content_path)
+    with pkg_resources.open_text(data, inter_path) as inter_file:
+        interactions = pd.read_csv(inter_file)
+
+    with pkg_resources.open_text(data, content_path) as content_file:
+        content = pd.read_csv(content_file)
+    
     del interactions['Unnamed: 0']
     del content['Unnamed: 0']
     

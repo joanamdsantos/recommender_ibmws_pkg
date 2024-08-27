@@ -1,6 +1,6 @@
 [project]
 name = "recommender_ibmws"
-version = "0.0.3"
+version = "0.1.0"
 authors = [
   { name="Joana Martins dos Santos", email="joanamlmsantos@gmail.com" },
 ]
@@ -12,6 +12,8 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
+[tool.setuptools.package-data]
+"recommender_ibmws" = ["data/*.csv"]
 
 [project.urls]
 Homepage = "https://github.com/joanamdsantos/recommender_ibmws_pkg"
