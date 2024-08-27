@@ -7,8 +7,8 @@ def load_data(inter_path, content_path):
 	and returns the processed interaction and content dataframes.
 
 	Parameters:
-		interactions_filepath (str): The filepath to the interactions CSV file.
-		content_filepath (str): The filepath to the content CSV file.
+		inter_path (str): The filepath to the interactions CSV file.
+		content_path (str): The filepath to the content CSV file.
 
 	Returns:
 		tuple: A tuple containing the processed interaction and content dataframes.
@@ -28,6 +28,16 @@ def load_data(inter_path, content_path):
     return interactions, content
 
 def email_mapper(interactions):
+    """
+    Maps email addresses to unique user IDs.
+
+    Parameters:
+        interactions (pandas DataFrame): Interaction data.
+
+    Returns:
+        list: A list of user IDs corresponding to the input email addresses.
+    """
+    
     coded_dict = dict()
     cter = 1
     email_encoded = []
@@ -77,7 +87,7 @@ def create_user_item_matrix(interactions):
     """
     Creates a user-item matrix from a given DataFrame.
     Parameters:
-        df (pandas DataFrame): A DataFrame containing user and article interactions.
+        interactions (pandas DataFrame): A DataFrame containing user and article interactions.
     Returns:
         pandas DataFrame: A user-item matrix where rows represent users, columns represent articles, and cell values indicate interaction presence.
     """
@@ -108,7 +118,7 @@ def get_article_names(article_ids, interactions):
     
     Parameters:
         article_ids (list): A list of article IDs.
-        df (pandas DataFrame, optional): A DataFrame containing article information. Defaults to the global variable 'df'.
+        interactions (pandas DataFrame, optional): A DataFrame containing article information. Defaults to the global variable 'df'.
     
     Returns:
         list: A list of article names.
@@ -128,10 +138,12 @@ def get_article_names(article_ids, interactions):
 
 def get_user_articles(user_id, interactions):
     """
-    Retrieves a list of article IDs and their corresponding article names that a user has interacted with.
+    Retrieves a list of article IDs and their corresponding names that a given user has interacted with.
+    
     Parameters:
-        user_id (int): The ID of the user.
-        user_item (pandas DataFrame): A user-item matrix where rows represent users, columns represent articles, and cell values indicate interaction presence.
+        user_id (int): The ID of the user to retrieve articles for.
+        interactions (pandas DataFrame): A DataFrame containing user and article interactions.
+    
     Returns:
         tuple: A tuple containing a list of article IDs and a list of article names.
     """

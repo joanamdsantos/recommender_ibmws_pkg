@@ -10,9 +10,9 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 class Recommender():
     '''
-    This Recommender uses Content-Based Filtering to make recommendations.  
-    IThe content base recommendation system developed relies on a user profile, text vectorization, 
-    similarity calculation, ranking and recommendation, as well as handling new users. 
+    This Recommender uses hybrid approach ofContent-Based Filtering and Colaborative Filtering to make recommendations.  
+    The content base recommendation system developed relies on a user profile, text vectorization, 
+    similarity calculation, ranking and recommendation, as well as handling of new users. 
     '''
 
     def __init__(self):
@@ -26,30 +26,38 @@ class Recommender():
         and returns the processed interaction and content dataframes.
 
         Parameters:
-            interactions_filepath (str): The filepath to the interactions CSV file.
-            content_filepath (str): The filepath to the content CSV file.
+            inter_path (str): The filepath to the interactions CSV file.
+            content_path (str): The filepath to the content CSV file.
 
         Returns:
             tuple: A tuple containing the processed interaction and content dataframes.
         """
+        
         self.interactions, self.content = rf.load_data(inter_path, content_path)
         return self.interactions, self.content
 
     def make_content_recs(self, user_id, m=10):
         """
         Makes content-based recommendations for a given user.
-        
+
         Parameters:
-        interactions_filepath (str): The filepath to the interactions CSV file.
-        content_filepath (str): The filepath to the content CSV file.
-        user_id (int): The ID of the user to make recommendations for.
-        m (int, optional): The number of recommendations to return. Defaults to 10.
-        df (pd.DataFrame, optional): The interactions DataFrame. Defaults to interactions.
-        df_content (pd.DataFrame, optional): The content DataFrame. Defaults to content.
-        user_item (pd.DataFrame, optional): The user-item matrix. Defaults to user_item.
-        
+            user_id (int): The ID of the user for whom to make recommendations.
+            m (int): The number of recommendations to make.
+
         Returns:
-        tuple: A tuple containing the recommended article IDs and their corresponding names.
+            tuple: A tuple containing the hybrid recommendations and their names.
+            This function stores the following as attributes:
+            n_users - the number of users (int)
+            n_articles - the number of articles (int)
+            num_interactions - the number of interactions (int)
+            user_item - the user-item matrix (pandas dataframe)
+            user_id - the user ID (int)
+            m - the number of recommendations (int)
+            user_profile - the user profile (str)
+            interactions - the interaction dataframe (pandas dataframe)
+            content - the content dataframe (pandas dataframe)
+            hybrid_recs - the recommendations (list)
+            hybrid_rec_names - the recommended article names (list)
         """
         # Create user-item matrix
         self.user_item = rf.create_user_item_matrix(self.interactions)
