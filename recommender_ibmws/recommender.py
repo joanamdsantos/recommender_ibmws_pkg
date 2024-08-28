@@ -74,7 +74,9 @@ class Recommender():
         
         # Create user-item matrix only once
         user_item = rf.create_user_item_matrix(self.interactions)
-        
+        # Group articles by interaction count
+        article_interactions = self.interactions.groupby('article_id').count()['user_id']
+
         # Check if user has any interactions
         if user_id in user_item.index:
             user_articles = rf.get_user_articles(user_id, self.interactions)[0]
@@ -108,9 +110,13 @@ class Recommender():
             
             collaborative_recs = []
             for sim_user in similar_users.index:
-                sim_user_articles = user_item.loc[sim_user]
-                new_recs = sim_user_articles[sim_user_articles == 1].index.difference(user_interactions[user_interactions == 1].index)
-                collaborative_recs.extend(new_recs)
+                new_recs = np.setdiff1d(rf.get_user_articles(sim_user, self.interactions)[0], 
+                                        rf.get_user_articles(user_id, self.interactions)[0], 
+                                        assume_unique=True)
+                
+                # Sort recommendations based on article popularity/interaction count
+                recs_to_add = article_interactions.loc[new_recs].sort_values(ascending=False)
+                collaborative_recs.extend(recs_to_add.index)
                 if len(collaborative_recs) >= m:
                     break
             collaborative_recs = collaborative_recs[:m]
@@ -119,6 +125,7 @@ class Recommender():
 
         # Hybrid Recommendations
         hybrid_recs = list(set(content_based_recs) | set(collaborative_recs))[:m]
+        hybrid_recs = article_interactions.loc[hybrid_recs].sort_values(ascending=False).index.tolist()[:m]
         hybrid_rec_names = rf.get_article_names(hybrid_recs, self.interactions)
         
         return hybrid_recs, hybrid_rec_names
